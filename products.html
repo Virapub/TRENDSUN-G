@@ -1,0 +1,73 @@
+<!-- products.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Products - Smart Kitchen Gadgets</title>
+    <style>
+        /* Reuse same CSS as index.html */
+        /* Additional styles */
+        .category-section {
+            margin: 2rem 0;
+            padding: 1rem;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <img src="logo.png" alt="Smart Kitchen Gadgets" style="height: 40px;">
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="products.html">Products</a>
+                <a href="#categories">Categories</a>
+            </nav>
+            <div class="currency-toggle" onclick="toggleCurrency()">USD</div>
+        </div>
+    </header>
+
+    <div class="product-grid" id="allProducts">
+        <!-- Products will be dynamically inserted here -->
+    </div>
+
+    <script>
+        // Reuse same product data and toggle function
+        
+        // Display all products
+        function displayAllProducts() {
+            const container = document.getElementById('allProducts');
+            let html = '';
+            
+            // Group products by category
+            const categories = ['low-budget', 'mid-range', 'premium'];
+            
+            categories.forEach(category => {
+                html += `<div class="category-section" id="${category}">`;
+                html += `<h2>${category.replace('-', ' ').toUpperCase()}</h2>`;
+                
+                products.filter(p => p.category === category).forEach(product => {
+                    html += `
+                        <div class="product-card">
+                            <img src="${product.image}" class="product-image" alt="${product.name}">
+                            <div class="product-info">
+                                <h3>${product.name}</h3>
+                                <p class="price" data-inr="${product.inrPrice}" data-us="${product.usPrice}">$${product.usPrice.split('$')[1]}</p>
+                                <a href="${product.usLink}" class="buy-button">Buy Now (US)</a>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += '</div>';
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Initialize
+        displayAllProducts();
+    </script>
+</body>
+</html>
