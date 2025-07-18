@@ -1,0 +1,195 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Kitchen Gadgets</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background: #2c3e50;
+            padding: 1rem;
+            color: white;
+            position: sticky;
+            top: 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 2rem;
+        }
+
+        .currency-toggle {
+            background: #3498db;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .hero {
+            background: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .product-grid {
+            max-width: 1200px;
+            margin: 2rem auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 1rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 1rem;
+        }
+
+        .price {
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+        }
+
+        .buy-button {
+            display: block;
+            background: #e74c3c;
+            color: white;
+            padding: 0.8rem;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+            }
+            
+            nav {
+                margin: 1rem 0;
+            }
+            
+            nav a {
+                margin: 0 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <img src="logo.png" alt="Smart Kitchen Gadgets" style="height: 40px;">
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="products.html">Products</a>
+                <a href="#categories">Categories</a>
+            </nav>
+            <div class="currency-toggle" onclick="toggleCurrency()">USD</div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Featured Smart Kitchen Gadgets</h1>
+    </section>
+
+    <div class="product-grid" id="featuredProducts">
+        <!-- Featured products will be dynamically inserted here -->
+    </div>
+
+    <script>
+        // Sample product data
+        const products = [
+            {
+                name: "Smart Blender",
+                inrPrice: "₹4,999",
+                usPrice: "$59.99",
+                inrLink: "https://amazon.in/...",
+                usLink: "https://amazon.com/...",
+                image: "https://via.placeholder.com/300x200",
+                category: "premium"
+            },
+            // Add more products...
+        ];
+
+        // Display featured products
+        function displayFeaturedProducts() {
+            const container = document.getElementById('featuredProducts');
+            let html = '';
+            
+            products.slice(0, 4).forEach(product => {
+                html += `
+                    <div class="product-card">
+                        <img src="${product.image}" class="product-image" alt="${product.name}">
+                        <div class="product-info">
+                            <h3>${product.name}</h3>
+                            <p class="price" data-inr="${product.inrPrice}" data-us="${product.usPrice}">$${product.usPrice.split('$')[1]}</p>
+                            <a href="${product.usLink}" class="buy-button">Buy Now (US)</a>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Currency toggle
+        function toggleCurrency() {
+            const currency = document.querySelector('.currency-toggle');
+            const isUSD = currency.textContent === 'USD';
+            
+            document.querySelectorAll('.price').forEach(price => {
+                price.textContent = isUSD ? price.dataset.inr : '$' + price.dataset.us.split('$')[1];
+            });
+            
+            document.querySelectorAll('.buy-button').forEach(button => {
+                button.href = isUSD ? button.href.replace('amazon.com', 'amazon.in') : button.href.replace('amazon.in', 'amazon.com');
+                button.textContent = isUSD ? 'Buy Now (India)' : 'Buy Now (US)';
+            });
+            
+            currency.textContent = isUSD ? 'INR' : 'USD';
+        }
+
+        // Initialize
+        displayFeaturedProducts();
+    </script>
+</body>
+</html>
